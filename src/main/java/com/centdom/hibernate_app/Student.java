@@ -23,20 +23,20 @@ public class Student {
     private int id;
 
     @Column(name = "first_name")
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "This field cannot be empty")
+    @NotNull(message = "This field cannot be empty")
     @Size(min = 3, max = 100, message = "Enter a valid First Name")
     private String firstName;
 
     @Column(name = "last_name")
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "This field cannot be empty")
+    @NotNull(message = "This field cannot be empty")
     @Size(min = 3, max = 100, message = "Enter a valid Last Name")
     private String lastName;
 
     @Column(name = "email")
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "This field cannot be empty")
+    @NotNull(message = "This field cannot be empty")
     @Size(min = 3, max = 100, message = "Email address field must contain valid characters and cannot be empty")
     @Email(message = "Enter a valid email address")
     private String email;

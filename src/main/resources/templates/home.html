@@ -3,6 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Hibernate App - Home</title>
+		<style>
+			.errors{
+				color: red;
+			}
+		</style>
 	</head>
 	<body>
 		<div style="border-radius: 10px; text-align: center">
@@ -16,12 +21,15 @@
 			<form method="POST" th:object="${student}" th:action=@{/}>
 				<h4>Enter Your First Name: </h4>
 				<input name="firstName" type="text" th:value="*{firstName}" placeholder="Enter your First Name"/>
+				<p th:if = "${#fields.hasErrors('firstName')}" th:errors = "*{firstName}" class = "errors"></p>
 				<br/>
 				<h4>Enter Your Last Name: </h4>
 				<input name="lastName" type="text" th:value="*{lastName}" placeholder="Enter your Last Name"/>
+				<p th:if = "${#fields.hasErrors('lastName')}" th:errors = "*{lastName}" class = "errors"></p>
 				<br/>
 				<h4>Enter Your Email: </h4>
 				<input name="email" type="text" th:value="*{email}" placeholder="Enter your Email Address Email"/>
+				<p th:if = "${#fields.hasErrors('email')}" th:errors = "*{email}" class = "errors"></p>
 				<br/>
 				<br/>
 				<input type = "submit" th:value = "|Submit your Details|" />

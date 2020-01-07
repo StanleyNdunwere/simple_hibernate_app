@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="UTF-8">
 		<title>Filled Form</title>
 	</head>
 	<body>
-		
+		<div style="text-align:center;">
+			<img th:src="@{/images/successful.PNG}" style="border-radius: 10px"/>
+			<h6>Photo credit -
+				<a th:href="@{https://unsplash.com/photos/bH7kZ0yazB0}">
+					<em>UNSPLASH</em>
+				</a>
+			</h6>
+			
+			<h2> Successfully Registered </h2>
+			
+			<div th:object="${student}">
+				Here are the details you supplied us...
+				<p><b>First Name: </b><span th:text="*{firstName}">Dummy For Now</span></p>
+				<p><b>Last Name: </b><span th:text="*{lastName}">Dummy For Now</span></p>
+				<p><b>Email: </b><span th:text="*{email}">Dummy For Now</span></p>
+			</div>
+		</div>
+	
+	
 	</body>
 </html>
