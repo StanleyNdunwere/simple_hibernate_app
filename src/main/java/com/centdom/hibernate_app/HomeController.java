@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 @Controller
@@ -20,9 +21,16 @@ public class HomeController {
 
     @Autowired
     private Student student;
+    public EntityManager manager;
     private SessionFactory fac;
 
-
+    @Autowired
+    public HomeController(EntityManager manager) {
+        String man = (manager != null) ?
+                "manager created" : "manager not created";
+        log.info(man);
+        this.manager = manager;
+    }
 
     @GetMapping
     public String showHome(Model model) {
@@ -33,6 +41,16 @@ public class HomeController {
     @PostMapping
     public String showEnteredDetails(Model model, @Valid Student student, Errors errors) {
         if (!errors.hasErrors()) {
+
+            log.info(student.toString());
+            Session session = manager.unwrap(Session.class);
+            try {
+                session.beginTransaction();
+                session.save(student);
+                session.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             model.addAttribute("student", student);
             return "submitted-form";
         }
