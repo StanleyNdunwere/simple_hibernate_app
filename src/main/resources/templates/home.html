@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8">
+		<title>Hibernate App - Home</title>
+	</head>
+	<body>
+		<div style="border-radius: 10px; text-align: center">
+			<img th:src="@{/images/tacoscloud.png}" style="border-radius: 10px; text-align: center"/>
+		</div>
+		<br/>
+		<div style="text-align: center">
+			<h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
+		</div>
+		<div style="text-align: center">
+			<form method="POST" th:object="${student}" th:action=@{/}>
+				<h4>Enter Your First Name: </h4>
+				<input name="firstName" type="text" th:value="*{firstName}" placeholder="Enter your First Name"/>
+				<br/>
+				<h4>Enter Your Last Name: </h4>
+				<input name="lastName" type="text" th:value="*{lastName}" placeholder="Enter your Last Name"/>
+				<br/>
+				<h4>Enter Your Email: </h4>
+				<input name="email" type="text" th:value="*{email}" placeholder="Enter your Email Address Email"/>
+				<br/>
+				<br/>
+				<input type = "submit" th:value = "|Submit your Details|" />
+			</form>
+		</div>
+	
+	</body>
+</html>
