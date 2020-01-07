@@ -14,28 +14,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @Controller
 @Slf4j
 @RequestMapping("/")
 public class HomeController {
 
-    @Autowired
     private Student student;
-    public EntityManager manager;
+    private EntityManager manager;
+    private SearchStudent searchStudent;
     private SessionFactory fac;
 
     @Autowired
-    public HomeController(EntityManager manager) {
-        String man = (manager != null) ?
+    public HomeController(EntityManager manager, Student student, SearchStudent searchStudent) {
+        String man = (searchStudent != null) ?
                 "manager created" : "manager not created";
-        log.info(man);
+        log.info("******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************");
         this.manager = manager;
+        this.student = student;
+        this.searchStudent = searchStudent;
     }
 
     @GetMapping
     public String showHome(Model model) {
         model.addAttribute("student", this.student);
+        model.addAttribute("data_type", Arrays.asList("First Name", "Last Name", "Email"));
+        model.addAttribute("search", this.searchStudent);
         return "home";
     }
 
@@ -53,6 +58,13 @@ public class HomeController {
                 return "home";
             }
         }
+        return "home";
+    }
+
+    @PostMapping("/search")
+    public String searchByParameter(Model model, SearchStudent searchStudent){
+
+        log.info(searchStudent.toString());
         return "home";
     }
 
