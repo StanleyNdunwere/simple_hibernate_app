@@ -1,5 +1,6 @@
 package com.centdom.hibernate_app;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -41,19 +42,30 @@ public class HomeController {
     @PostMapping
     public String showEnteredDetails(Model model, @Valid Student student, Errors errors) {
         if (!errors.hasErrors()) {
-
             log.info(student.toString());
             Session session = manager.unwrap(Session.class);
-            try {
-                session.beginTransaction();
-                session.save(student);
-                session.getTransaction().commit();
-            } catch (Exception e) {
-                e.printStackTrace();
+            boolean saveSuccessful = this.saveStudentToDatabase(student, session);
+            if (saveSuccessful) {
+                model.addAttribute("student", student);
+                return "submitted-form";
+            }else{
+                model.addAttribute("failed", "Failed To Save Record");
+                return "home";
             }
-            model.addAttribute("student", student);
-            return "submitted-form";
         }
         return "home";
+    }
+
+
+    private boolean saveStudentToDatabase(@NonNull Student student, Session session) {
+        try {
+            session.beginTransaction();
+            session.save(student);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
