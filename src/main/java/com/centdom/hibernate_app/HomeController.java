@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,8 +34,6 @@ public class HomeController {
         this.manager = manager;
         this.student = student;
         this.searchStudent = searchStudent;
-        String x = (student == null) ? "nulllllllllllllllllllllllllllllllllllllllllllllllllllll" : "fuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuull";
-        log.info(x);
     }
 
     @GetMapping("/")
@@ -70,10 +69,13 @@ public class HomeController {
     }
 
     @PostMapping("/search")
-    public String searchByParameter(Model model, SearchStudent searchStudent) {
-
+    public String searchByParameter(Model model, @Valid SearchStudent searchStudent, Errors errors) {
         log.info(searchStudent.toString());
-        return "home";
+        log.info(errors.hasErrors() + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        if(!errors.hasErrors()){
+            return "search-result";
+        }
+        return "search";
     }
 
     private boolean saveStudentToDatabase(@NonNull Student student, Session session) {

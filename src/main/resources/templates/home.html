@@ -50,7 +50,7 @@
 				</h3>
 				<form method="POST" th:object="${student}" th:action=@{/} name="register-form">
 					<h4>Enter Your First Name: </h4>
-					<input name="firstName" type="text" required th:value="*{firstName}?: ''"
+					<input name="firstName" type="text" th:value="*{firstName}?: ''"
 						   placeholder="Enter your First Name"/>
 					<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="errors"></p>
 					<br/>
