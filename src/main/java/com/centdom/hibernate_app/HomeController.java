@@ -30,19 +30,27 @@ public class HomeController {
     public HomeController(EntityManager manager, Student student, SearchStudent searchStudent) {
         String man = (searchStudent != null) ?
                 "manager created" : "manager not created";
-        log.info("******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************");
         this.manager = manager;
         this.student = student;
         this.searchStudent = searchStudent;
+        String x = (student == null) ? "nulllllllllllllllllllllllllllllllllllllllllllllllllllll" : "fuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuull";
+        log.info(x);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String showHome(Model model) {
         model.addAttribute("student", this.student);
         model.addAttribute("data_type", Arrays.asList("First Name", "Last Name", "Email"));
-        model.addAttribute("search", this.searchStudent);
         return "home";
     }
+
+    @GetMapping("/search")
+    public String showSearch(Model model) {
+        model.addAttribute("data_type", Arrays.asList("First Name", "Last Name", "Email"));
+        model.addAttribute("search", this.searchStudent);
+        return "search";
+    }
+
 
     @PostMapping
     public String showEnteredDetails(Model model, @Valid Student student, Errors errors) {
@@ -53,7 +61,7 @@ public class HomeController {
             if (saveSuccessful) {
                 model.addAttribute("student", student);
                 return "submitted-form";
-            }else{
+            } else {
                 model.addAttribute("failed", "Failed To Save Record");
                 return "home";
             }
@@ -62,12 +70,11 @@ public class HomeController {
     }
 
     @PostMapping("/search")
-    public String searchByParameter(Model model, SearchStudent searchStudent){
+    public String searchByParameter(Model model, SearchStudent searchStudent) {
 
         log.info(searchStudent.toString());
         return "home";
     }
-
 
     private boolean saveStudentToDatabase(@NonNull Student student, Session session) {
         try {

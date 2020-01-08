@@ -39,42 +39,28 @@
 		</div>
 		<br/>
 		<div style="text-align: center">
+			<a th:href="@{/search}">Click to Search By Specific Information</a>
+			<br/>
 			<h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
 		</div>
 		<div class="parent-form">
-			<div class="search-record">
-				<h3>
-					Search for your records instead?
-				</h3>
-				<form th:action = "@{/search}" method="post" th:object ="${search}" name = "search-form">
-					<h4>Select item to search with...</h4>
-					<select name = "param">
-						<option th:each = "data_type : ${data_type}" th:value = "${data_type}" th:text = "${data_type}"></option>
-					</select>
-					<h4>Enter search parameter</h4>
-					<input type="text" name="paramValue" th:value="*{paramValue}" placeholder="Enter either First Name/Last Name/Email"/>
-					<br/>
-					<br/>
-					<button type="submit" th:text="|Search|"/>
-				</form>
-			</div>
-			<br/>
 			<div class="enter-record">
 				<h3>
 					Create Your Records With The Form Business
 				</h3>
-				<form method="POST" th:object="${student}" th:action=@{/}  name = "register-form">
+				<form method="POST" th:object="${student}" th:action=@{/} name="register-form">
 					<h4>Enter Your First Name: </h4>
-					<input name="firstName" type="text" required th:value="*{firstName}" placeholder="Enter your First Name"/>
+					<input name="firstName" type="text" required th:value="*{firstName}?: ''"
+						   placeholder="Enter your First Name"/>
 					<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="errors"></p>
 					<br/>
 					<h4>Enter Your Last Name: </h4>
-					<input name="lastName" type="text" required th:value="*{lastName}"
+					<input name="lastName" type="text" required th:value="*{lastName}?: ''"
 						   placeholder="Enter your Last Name"/>
 					<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="errors"></p>
 					<br/>
 					<h4>Enter Your Email: </h4>
-					<input name="email" type="text" required th:value="*{email}"
+					<input name="email" type="text" required th:value="*{email}?: ''"
 						   placeholder="Enter your Email Address Email"/>
 					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="errors"></p>
 					<br/>
