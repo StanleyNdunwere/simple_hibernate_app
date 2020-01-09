@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -71,10 +72,13 @@ public class HomeController {
     @PostMapping("/search")
     public String searchByParameter(Model model, @Valid SearchStudent searchStudent, Errors errors) {
         log.info(searchStudent.toString());
-        log.info(errors.hasErrors() + "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        if(!errors.hasErrors()){
+        if (!errors.hasErrors()) {
+            model.addAttribute("search_params", searchStudent);
+            List<Student> students = this.retrieveStudentFromDatabase(searchStudent.getParam(), searchStudent.getParamValue());
+            model.addAttribute("student", students);
             return "search-result";
         }
+        model.addAttribute("search", searchStudent);
         return "search";
     }
 
@@ -88,5 +92,29 @@ public class HomeController {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private List<Student> retrieveStudentFromDatabase(@NonNull String studentDetail, @NonNull String parameter) {
+        String searchParam = "";
+        switch (studentDetail) {
+            case "First Name":
+                searchParam = "firstName";
+                break;
+            case "Last Name":
+                searchParam = "lastName";
+                break;
+            case "Email":
+                searchParam = "email";
+                break;
+            default:
+                searchParam = "";
+                break;
+        }
+        String hql = "FROM Student";// where " + searchParam + " = " + "\'" + parameter  + "\'";
+        Session session = manager.unwrap(Session.class);
+        session.beginTransaction();
+        List<Student> student = session.createQuery(hql).getResultList();
+        session.getTransaction().commit();
+        return student;
     }
 }
