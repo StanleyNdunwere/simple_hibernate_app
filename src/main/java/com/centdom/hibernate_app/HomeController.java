@@ -5,17 +5,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -45,8 +44,7 @@ public class HomeController {
 
     @GetMapping("/search")
     public String showSearch(Model model) {
-        model.addAttribute("data_type", this.searchStudent.getParamType());
-        model.addAttribute("search", this.searchStudent);
+        model.addAttribute("searchStudent", this.searchStudent);
         return "search";
     }
 
@@ -77,7 +75,7 @@ public class HomeController {
             model.addAttribute("student", students);
             return "search-result";
         }
-//        model.addAttribute("data_type", Arrays.asList("First Name", "Last Name", "Email"));
+
         return "search";
     }
 
@@ -109,11 +107,16 @@ public class HomeController {
                 searchParam = "";
                 break;
         }
-        String hql = "FROM Student where " + searchParam + " = " + "\'" + parameter  + "\'";
+        String hql = "FROM Student where " + searchParam + " = " + "\'" + parameter + "\'";
         Session session = manager.unwrap(Session.class);
         session.beginTransaction();
         List<Student> students = session.createQuery(hql).getResultList();
         session.getTransaction().commit();
         return students;
+    }
+
+    @PostMapping("/error")
+    public String errorPage(){
+        return "error";
     }
 }

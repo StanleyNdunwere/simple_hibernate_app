@@ -1,74 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta charset="UTF-8">
-		<title>Hibernate App - Home</title>
-		<style>
-			.errors {
-				color: red;
-			}
-			
-			.search-record {
-				background: #ff8b4761;
-				width: 50%;
-				border-radius: 10px;
-				margin: auto;
-				padding: 10px;
-			}
-			
-			.parent-form {
-				text-align: center;
-			}
-			
-			h3 {
-				color: green;
-			}
-			
-			.enter-record {
-				margin: auto;
-				width: 50%;
-				border-radius: 10px;
-				background: #ffb87bd1;
-				padding: 10px;
-			}
-		</style>
-	</head>
-	<body>
-		<div style="border-radius: 10px; text-align: center">
-			<img th:src="@{/images/tacoscloud.png}" style="border-radius: 10px; text-align: center"/>
-		</div>
-		<br/>
-		<div style="text-align: center">
-			<a th:href="@{/search}">Click to Search By Specific Information</a>
-			<br/>
-			<h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
-		</div>
-		<div class="parent-form">
-			<div class="enter-record">
-				<h3>
-					Create Your Records With The Form Business
-				</h3>
-				<form method="POST" th:object="${student}" th:action=@{/} name="register-form">
-					<h4>Enter Your First Name: </h4>
-					<input name="firstName" type="text" th:value="*{firstName}?: ''"
-						   placeholder="Enter your First Name"/>
-					<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="errors"></p>
-					<br/>
-					<h4>Enter Your Last Name: </h4>
-					<input name="lastName" type="text" required th:value="*{lastName}?: ''"
-						   placeholder="Enter your Last Name"/>
-					<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="errors"></p>
-					<br/>
-					<h4>Enter Your Email: </h4>
-					<input name="email" type="text" required th:value="*{email}?: ''"
-						   placeholder="Enter your Email Address Email"/>
-					<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="errors"></p>
-					<br/>
-					<br/>
-					<input type="submit" th:value="|Submit your Details|"/>
-				</form>
-			</div>
-		</div>
-	
-	</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hibernate App - Home</title>
+        <style>
+            .errors {
+                color: red;
+            }
+
+            .parent-form {
+                text-align: center;
+            }
+
+            h3 {
+                color: green;
+            }
+
+            .enter-record {
+                margin: auto;
+                width: 50%;
+                border-radius: 10px;
+                background: #ffb87bd1;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="border-radius: 10px; text-align: center">
+            <img th:src="@{/images/tacoscloud.png}" style="border-radius: 10px; text-align: center"/>
+        </div>
+        <br/>
+        <div style="text-align: center">
+            <a th:href="@{/search}">Click to Search By Specific Information</a>
+            <br/>
+            <h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
+        </div>
+
+        <div class="parent-form">
+            <div class="enter-record">
+                <h3>
+                    Create Your Records With The Form Business
+                </h3>
+                <form method="POST" th:object="${student}" th:action=@{/} name="register-form">
+                    <h4>Enter Your First Name: </h4>
+                    <input name="firstName" type="text" th:value="*{firstName}?: ''"
+                           placeholder="Enter your First Name"/>
+                    <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="errors"></p>
+                    <br/>
+                    <h4>Enter Your Last Name: </h4>
+                    <input name="lastName" type="text" required th:value="*{lastName}?: ''"
+                           placeholder="Enter your Last Name"/>
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="errors"></p>
+                    <br/>
+                    <h4>Enter Your Email: </h4>
+                    <input name="email" type="text" required th:value="*{email}?: ''"
+                           placeholder="Enter your Email Address Email"/>
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="errors"></p>
+                    <br/>
+                    <br/>
+                    <input type="submit" th:value="|Submit your Details|"/>
+                </form>
+            </div>
+        </div>
+
+    </body>
 </html>

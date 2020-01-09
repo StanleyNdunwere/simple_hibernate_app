@@ -37,31 +37,33 @@
             <img th:src="@{/images/tacoscloud.png}" style="border-radius: 10px; text-align: center"/>
         </div>
         <br/>
-        <div style="text-align: center">
-            <a th:href="@{/search}">Click to Search By Specific Information</a>
-            <br/>
-            <h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
-        </div>
-        <div class="enter-record">
-            <div class="search-record">
-                <h3>
-                    Search for your records Instead?
-                </h3>
-                <form th:action="@{/search}" method="post" th:object="${search}" name="search-form">
-                    <h4>Select item to search with...</h4>
-                    <select name="param">
-                        <option th:each="paramType : ${search.paramType}" th:value="${paramType}"
-                                th:text="${paramType}"></option>
-                    </select>
-                    <p th:if="${#fields.hasErrors('param')}" th:errors="*{param}"></p>
-                    <h4>Enter search parameter</h4>
-                    <input type="text" name="paramValue" th:value="${paramValue} ?: ''"
-                           placeholder="Enter either First Name/Last Name/Email"/>
-                    <p th:if="${#fields.hasErrors('paramValue')}" th:errors="*{paramValue}"></p>
-                    <br/>
-                    <br/>
-                    <button type="submit" th:text="|Search|"/>
-                </form>
+        <div>
+            <div style="text-align: center">
+                <a th:href="@{/search}">Click to Search By Specific Information</a>
+                <br/>
+                <h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
+            </div>
+            <div class="enter-record">
+                <div class="search-record">
+                    <h3>
+                        Search for your records Instead?
+                    </h3>
+                    <form th:action="@{/search}" method="post" th:object="${searchStudent}" name="search-form">
+                        <h4>Select item to search with...</h4>
+                        <select name="param">
+                            <option th:each="paramType : ${searchStudent.paramType}" th:value="${paramType}"
+                                    th:text="${paramType}"></option>
+                        </select>
+                        <p th:if="${#fields.hasErrors('param')}" th:errors="*{param}" class="errors"></p>
+                        <h4>Enter search parameter</h4>
+                        <input type="text" name="paramValue" th:value="${paramValue}"
+                               placeholder="Enter either First Name/Last Name/Email"/>
+                        <p th:if="${#fields.hasErrors('paramValue')}" th:errors="*{paramValue}" class="errors"></p>
+                        <br/>
+                        <br/>
+                        <button type="submit" th:text="|Search|"/>
+                    </form>
+                </div>
             </div>
             <br/>
         </div>
