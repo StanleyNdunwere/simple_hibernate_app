@@ -21,6 +21,14 @@
                     <p><b>First Name: </b><span th:text="${student.firstName}">Dummy For Now</span></p>
                     <p><b>Last Name: </b><span th:text="${student.lastName}">Dummy For Now</span></p>
                     <p><b>Email: </b><span th:text="${student.email}">Dummy For Now</span></p>
+                    <br/>
+                    Edit This Record
+                    <form method="post" th:object="${student}" th:action="@{/update}">
+                        <input name ="firstName" th:value = "${student.firstName}" hidden/>
+                        <input name ="lastName" th:value = "${student.lastName}" hidden />
+                        <input name ="email" th:value = "${student.email}" hidden />
+                        <input type="submit" th:value = "|Update This Student|"/>
+                    </form>
                 </div>
             </div>
 

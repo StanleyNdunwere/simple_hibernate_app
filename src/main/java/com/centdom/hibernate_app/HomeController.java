@@ -3,7 +3,7 @@ package com.centdom.hibernate_app;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -24,12 +26,9 @@ public class HomeController {
     private Student student;
     private EntityManager manager;
     private SearchStudent searchStudent;
-    private Session session;
 
     @Autowired
     public HomeController(EntityManager manager, Student student, SearchStudent searchStudent) {
-        String man = (searchStudent != null) ?
-                "manager created" : "manager not created";
         this.manager = manager;
         this.student = student;
         this.searchStudent = searchStudent;
@@ -72,6 +71,7 @@ public class HomeController {
             model.addAttribute("search_params", searchStudent);
             List<Student> students = this.retrieveStudentFromDatabase(searchStudent.getParam(), searchStudent.getParamValue());
             model.addAttribute("student", students);
+            model.addAttribute("emptyStudent", new UpdateStudent());
             return "search-result";
         }
 
@@ -105,8 +105,27 @@ public class HomeController {
             this.deleteStudentFromDatabase(searchStudent.getParam(), searchStudent.getParamValue());
             return "delete-result";
         }
-
         return "delete";
+    }
+
+    @PostMapping("/update")
+    public String updateStudent(Model model, Student student) {
+        log.info(student.toString());
+        UpdateStudent updateStudent = new UpdateStudent();
+        updateStudent.setOldFirstName(student.getFirstName());
+        updateStudent.setOldLastName(student.getLastName());
+        updateStudent.setOldEmail(student.getEmail());
+        model.addAttribute("newStudentDetails", updateStudent);
+        return "update-form";
+    }
+
+
+    @PostMapping("/update-new")
+    public String newStudentForm(Model model, UpdateStudent student) {
+        model.addAttribute("student", student);
+        log.info(student.toString());
+        this.updateOldStudentDetails(student);
+        return "updated-result";
     }
 
     private List<Student> retrieveStudentFromDatabase(@NonNull String studentDetail, @NonNull String parameter) {
@@ -147,6 +166,23 @@ public class HomeController {
         session.createQuery(hql).executeUpdate();
         session.getTransaction().commit();
     }
+
+
+    private void updateOldStudentDetails(UpdateStudent newStudentDetails) {
+        String hql = "Update Student set firstName =  " + "\'" + newStudentDetails.getFirstName() + "\'," +
+                " lastName = " + "'" + newStudentDetails.getLastName() + "'," +
+                " email = " + "'" + newStudentDetails.getEmail() + "'" + " Where " +
+                " firstName =  " + "'" + newStudentDetails.getOldFirstName() + "' and " +
+                " lastName = " + "'" + newStudentDetails.getOldLastName() + "' and " +
+                " email =  " + "'" + newStudentDetails.getOldEmail() + "'";
+
+        log.info(hql);
+        Session session = manager.unwrap(Session.class);
+        session.beginTransaction();
+        session.createQuery(hql).executeUpdate();
+        session.getTransaction().commit();
+    }
+
 
     @PostMapping("/error")
     public String errorPage() {

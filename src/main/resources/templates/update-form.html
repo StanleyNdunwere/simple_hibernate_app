@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Update Student</title>
+        <style>
+            .errors {
+                color: red;
+            }
+
+            .parent-form {
+                text-align: center;
+            }
+
+            h3 {
+                color: green;
+            }
+
+            .enter-record {
+                margin: auto;
+                width: 50%;
+                border-radius: 10px;
+                background: #ffb87bd1;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="parent-form">
+            <div class="enter-record">
+                <h3>
+                    Create Your Records With The Form Below
+                </h3>
+                <h4>
+                    Previous Record Details are as follows
+                </h4>
+                <p><b>Old First Name :</b> <span th:text ="${newStudentDetails.oldFirstName}"></span></p>
+                <p><b>Old Last Name :</b> <span th:text ="${newStudentDetails.oldLastName}"></span></p>
+                <p><b>Old Email :</b> <span th:text ="${newStudentDetails.oldEmail}"></span></p>
+                <form method="POST" th:object="${newStudentDetails}" th:action=@{/update-new} name="update-form">
+                    <h4>Enter New First Name: </h4>
+
+                    <input name="firstName" type="text" th:value="*{oldFirstName}?: ''"
+                           placeholder="Enter your First Name"/>
+                    <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="errors"></p>
+                    <br/>
+                    <h4>Enter New Last Name: </h4>
+                    <input name="lastName" type="text" required th:value="*{oldLastName}?: ''"
+                           placeholder="Enter your Last Name"/>
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="errors"></p>
+                    <br/>
+                    <h4>Enter New Email: </h4>
+                    <input name="email" type="text" required th:value="*{oldEmail}?: ''"
+                           placeholder="Enter your Email Address Email"/>
+                    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="errors"></p>
+                    <input type="text" hidden name="oldFirstName" th:value ="*{oldFirstName}" />
+                    <input type="text" hidden name="oldLastName" th:value ="*{oldLastName}" />
+                    <input type="text" hidden name="oldEmail" th:value ="*{oldEmail}" />
+
+                    <br/>
+                    <br/>
+                    <input type="submit" th:value="|Submit your Details|"/>
+                </form>
+            </div>
+        </div>
+
+
+    </body>
+</html>

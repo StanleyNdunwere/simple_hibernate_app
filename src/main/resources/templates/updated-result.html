@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Delete Result</title>
+    </head>
+    <body>
+        <div style="text-align:center;">
+            <img th:src="@{/images/successful.PNG}" style="border-radius: 10px"/>
+            <h6>Photo credit -
+                <a th:href="@{https://unsplash.com/photos/bH7kZ0yazB0}">
+                    <em>UNSPLASH</em>
+                </a>
+            </h6>
+            <h2> Result(s) From Deletion Operation </h2>
+            <div>
+                <h3>
+                    Here Are The Deleted Information...
+                </h3>
+                <h4>Old Details</h4>
+                <p><b>First Name: </b><span th:text="${student.oldFirstName}">Dummy For Now</span></p>
+                <p><b>Last Name: </b><span th:text="${student.oldLastName}">Dummy For Now</span></p>
+                <p><b>Email: </b><span th:text="${student.oldEmail}">Dummy For Now</span></p>
+                <br/>
+                <h4>New Details</h4>
+                <p><b>First Name: </b><span th:text="${student.firstName}">Dummy For Now</span></p>
+                <p><b>Last Name: </b><span th:text="${student.lastName}">Dummy For Now</span></p>
+                <p><b>Email: </b><span th:text="${student.email}">Dummy For Now</span></p>
+                <br/>
+            </div>
+
+        </div>
+    </body>
+</html>
