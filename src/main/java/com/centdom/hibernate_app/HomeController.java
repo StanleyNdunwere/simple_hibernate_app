@@ -40,13 +40,12 @@ public class HomeController {
     @GetMapping("/")
     public String showHome(Model model) {
         model.addAttribute("student", this.student);
-        model.addAttribute("data_type", Arrays.asList("First Name", "Last Name", "Email"));
         return "home";
     }
 
     @GetMapping("/search")
     public String showSearch(Model model) {
-        model.addAttribute("data_type", Arrays.asList("First Name", "Last Name", "Email"));
+        model.addAttribute("data_type", this.searchStudent.getParamType());
         model.addAttribute("search", this.searchStudent);
         return "search";
     }
@@ -78,7 +77,7 @@ public class HomeController {
             model.addAttribute("student", students);
             return "search-result";
         }
-        model.addAttribute("search", searchStudent);
+//        model.addAttribute("data_type", Arrays.asList("First Name", "Last Name", "Email"));
         return "search";
     }
 
@@ -110,11 +109,11 @@ public class HomeController {
                 searchParam = "";
                 break;
         }
-        String hql = "FROM Student";// where " + searchParam + " = " + "\'" + parameter  + "\'";
+        String hql = "FROM Student where " + searchParam + " = " + "\'" + parameter  + "\'";
         Session session = manager.unwrap(Session.class);
         session.beginTransaction();
-        List<Student> student = session.createQuery(hql).getResultList();
+        List<Student> students = session.createQuery(hql).getResultList();
         session.getTransaction().commit();
-        return student;
+        return students;
     }
 }

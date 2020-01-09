@@ -1,67 +1,69 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-	<head>
-		<meta charset="UTF-8">
-		<title>Search Your Records</title>
-		<style>
-			.errors {
-				color: red;
-			}
-			
-			.search-record {
-				background: #ff8b4761;
-				width: 50%;
-				border-radius: 10px;
-				margin: auto;
-				padding: 10px;
-			}
-			
-			.parent-form {
-				text-align: center;
-			}
-			
-			h3 {
-				color: green;
-			}
-			
-			.enter-record {
-				margin: auto;
-				width: 50%;
-				border-radius: 10px;
-				padding: 10px;
-			}
-		</style>
-	</head>
-	<body>
-		<div style="border-radius: 10px; text-align: center">
-			<img th:src="@{/images/tacoscloud.png}" style="border-radius: 10px; text-align: center"/>
-		</div>
-		<br/>
-		<div style="text-align: center">
-			<a th:href="@{/search}">Click to Search By Specific Information</a>
-			<br/>
-			<h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
-		</div>
-		<div class="enter-record">
-			<div class="search-record">
-				<h3>
-					Search for your records Instead?
-				</h3>
-				<form th:action = "@{/search}" method="post" th:object ="${search}" name = "search-form">
-					<h4>Select item to search with...</h4>
-					<select name = "param">
-						<option th:each = "data_type : ${data_type}" th:value = "${data_type}" th:text = "${data_type}"></option>
-					</select>
-					<p th:if = "${#fields.hasErrors('param')}" th:errors = "*{param}"></p>
-					<h4>Enter search parameter</h4>
-					<input type="text" name="paramValue" th:value = "${paramValue} ?: ''" placeholder="Enter either First Name/Last Name/Email"/>
-					<p th:if = "${#fields.hasErrors('paramValue')}" th:errors = "*{paramValue}"></p>
-					<br/>
-					<br/>
-					<button type="submit" th:text="|Search|"/>
-				</form>
-			</div>
-			<br/>
-		</div>
-	</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Search Your Records</title>
+        <style>
+            .errors {
+                color: red;
+            }
+
+            .search-record {
+                background: #ff8b4761;
+                width: 50%;
+                border-radius: 10px;
+                margin: auto;
+                padding: 10px;
+            }
+
+            .parent-form {
+                text-align: center;
+            }
+
+            h3 {
+                color: green;
+            }
+
+            .enter-record {
+                margin: auto;
+                width: 50%;
+                border-radius: 10px;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="border-radius: 10px; text-align: center">
+            <img th:src="@{/images/tacoscloud.png}" style="border-radius: 10px; text-align: center"/>
+        </div>
+        <br/>
+        <div style="text-align: center">
+            <a th:href="@{/search}">Click to Search By Specific Information</a>
+            <br/>
+            <h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
+        </div>
+        <div class="enter-record">
+            <div class="search-record">
+                <h3>
+                    Search for your records Instead?
+                </h3>
+                <form th:action="@{/search}" method="post" th:object="${search}" name="search-form">
+                    <h4>Select item to search with...</h4>
+                    <select name="param">
+                        <option th:each="paramType : ${search.paramType}" th:value="${paramType}"
+                                th:text="${paramType}"></option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('param')}" th:errors="*{param}"></p>
+                    <h4>Enter search parameter</h4>
+                    <input type="text" name="paramValue" th:value="${paramValue} ?: ''"
+                           placeholder="Enter either First Name/Last Name/Email"/>
+                    <p th:if="${#fields.hasErrors('paramValue')}" th:errors="*{paramValue}"></p>
+                    <br/>
+                    <br/>
+                    <button type="submit" th:text="|Search|"/>
+                </form>
+            </div>
+            <br/>
+        </div>
+    </body>
 </html>
