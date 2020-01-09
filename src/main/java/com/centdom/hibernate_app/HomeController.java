@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,7 +24,7 @@ public class HomeController {
     private Student student;
     private EntityManager manager;
     private SearchStudent searchStudent;
-    private SessionFactory fac;
+    private Session session;
 
     @Autowired
     public HomeController(EntityManager manager, Student student, SearchStudent searchStudent) {
@@ -91,22 +90,27 @@ public class HomeController {
         }
     }
 
-    private List<Student> retrieveStudentFromDatabase(@NonNull String studentDetail, @NonNull String parameter) {
-        String searchParam = "";
-        switch (studentDetail) {
-            case "First Name":
-                searchParam = "firstName";
-                break;
-            case "Last Name":
-                searchParam = "lastName";
-                break;
-            case "Email":
-                searchParam = "email";
-                break;
-            default:
-                searchParam = "";
-                break;
+    @GetMapping("/delete")
+    public String deleteRecord(Model model) {
+        model.addAttribute("searchStudent", this.searchStudent);
+        return "delete";
+    }
+
+    @PostMapping("/delete")
+    public String deleteRecord(Model model, @Valid SearchStudent searchStudent, Errors errors) {
+        if (!errors.hasErrors()) {
+            model.addAttribute("search_params", searchStudent);
+            List<Student> students = this.retrieveStudentFromDatabase(searchStudent.getParam(), searchStudent.getParamValue());
+            model.addAttribute("student", students);
+            this.deleteStudentFromDatabase(searchStudent.getParam(), searchStudent.getParamValue());
+            return "delete-result";
         }
+
+        return "delete";
+    }
+
+    private List<Student> retrieveStudentFromDatabase(@NonNull String studentDetail, @NonNull String parameter) {
+        String searchParam = this.switchSearchParams(studentDetail);
         String hql = "FROM Student where " + searchParam + " = " + "\'" + parameter + "\'";
         Session session = manager.unwrap(Session.class);
         session.beginTransaction();
@@ -115,8 +119,37 @@ public class HomeController {
         return students;
     }
 
+    private String switchSearchParams(String searchParam) {
+        String studentDetail = "";
+        switch (searchParam) {
+            case "First Name":
+                studentDetail = "firstName";
+                break;
+            case "Last Name":
+                studentDetail = "lastName";
+                break;
+            case "Email":
+                studentDetail = "email";
+                break;
+            default:
+                studentDetail = "";
+                break;
+        }
+        return studentDetail;
+    }
+
+
+    private void deleteStudentFromDatabase(@NonNull String studentDetail, @NonNull String parameter) {
+        String detailToDelete = this.switchSearchParams(studentDetail);
+        String hql = "Delete FROM Student where " + detailToDelete + " = " + "\'" + parameter + "\'";
+        Session session = manager.unwrap(Session.class);
+        session.beginTransaction();
+        session.createQuery(hql).executeUpdate();
+        session.getTransaction().commit();
+    }
+
     @PostMapping("/error")
-    public String errorPage(){
+    public String errorPage() {
         return "error";
     }
 }

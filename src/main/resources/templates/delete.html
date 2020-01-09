@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Delete Records</title>
+        <style>
+            .errors {
+                color: red;
+            }
+
+            .parent-form {
+                text-align: center;
+            }
+
+            h3 {
+                color: green;
+            }
+
+            .enter-record {
+                margin: auto;
+                width: 50%;
+                border-radius: 10px;
+                background: #ffb87bd1;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="border-radius: 10px; text-align: center">
+            <img th:src="@{/images/tacoscloud.png}" style="border-radius: 10px; text-align: center"/>
+        </div>
+        <br/>
+        <div style="text-align: center">
+            <h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
+        </div>
+
+        <div class="parent-form">
+            <div class="enter-record">
+                <h3>
+                    Delete Your Records By Parameter
+                </h3>
+                <form th:action="@{/delete}" method="post" th:object="${searchStudent}" name="search-form">
+                    <h4>Select item to search with...</h4>
+                    <select name="param">
+                        <option th:each="paramType : ${searchStudent.paramType}" th:value="${paramType}"
+                                th:text="${paramType}"></option>
+                    </select>
+                    <p th:if="${#fields.hasErrors('param')}" th:errors="*{param}" class="errors"></p>
+                    <h4>Enter search parameter</h4>
+                    <input type="text" name="paramValue" th:value="${paramValue}"
+                           placeholder="Enter either First Name/Last Name/Email"/>
+                    <p th:if="${#fields.hasErrors('paramValue')}" th:errors="*{paramValue}" class="errors"></p>
+                    <br/>
+                    <br/>
+                    <button type="submit" th:text="|Search|"/>
+                </form>
+            </div>
+        </div>
+
+    </body>
+</html>

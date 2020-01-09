@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
-        <title>Search Result</title>
+        <title>Delete Result</title>
     </head>
     <body>
         <div style="text-align:center;">
@@ -15,7 +15,7 @@
             <h2> Result(s) From Search </h2>
             <div>
                 <h3>
-                    Here Are Your Search Results...
+                    Here Are Your Deleted Records...
                 </h3>
                 <div th:each="student : ${student}">
                     <p><b>First Name: </b><span th:text="${student.firstName}">Dummy For Now</span></p>
@@ -23,7 +23,6 @@
                     <p><b>Email: </b><span th:text="${student.email}">Dummy For Now</span></p>
                 </div>
             </div>
-
         </div>
     </body>
 </html>

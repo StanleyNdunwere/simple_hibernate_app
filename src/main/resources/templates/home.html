@@ -33,13 +33,15 @@
         <div style="text-align: center">
             <a th:href="@{/search}">Click to Search By Specific Information</a>
             <br/>
+            <a th:href="@{/delete}">Click Here To Delete Record By Specific Information</a>
+            <br/>
             <h2>This Demo App Tests Hibernate for CRUD Purposes</h2>
         </div>
 
         <div class="parent-form">
             <div class="enter-record">
                 <h3>
-                    Create Your Records With The Form Business
+                    Create Your Records With The Form Below
                 </h3>
                 <form method="POST" th:object="${student}" th:action=@{/} name="register-form">
                     <h4>Enter Your First Name: </h4>
