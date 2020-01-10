@@ -3,7 +3,6 @@ package com.centdom.hibernate_app;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
-import org.hibernate.sql.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -110,7 +107,7 @@ public class HomeController {
 
     @PostMapping("/update")
     public String updateStudent(Model model, Student student) {
-        log.info(student.toString());
+//        log.info(student.toString());
         UpdateStudent updateStudent = new UpdateStudent();
         updateStudent.setOldFirstName(student.getFirstName());
         updateStudent.setOldLastName(student.getLastName());
@@ -123,7 +120,7 @@ public class HomeController {
     @PostMapping("/update-new")
     public String newStudentForm(Model model, UpdateStudent student) {
         model.addAttribute("student", student);
-        log.info(student.toString());
+//        log.info(student.toString());
         this.updateOldStudentDetails(student);
         return "updated-result";
     }
